@@ -2,6 +2,7 @@ package com.example.myapplication;
 
 public class RecyclerViewItem {
 
+    private String textViewNumber;
     private String textViewSortSurname;
     private String textViewClub;
     private String textViewAmplua;
@@ -9,7 +10,8 @@ public class RecyclerViewItem {
     private String textViewIndexQuality;
     private String textViewMainIndex;
 
-    public RecyclerViewItem(String textViewSortSurname, String textViewClub, String textViewAmplua, String textViewAvarageQuantityFO, String textViewIndexQuality, String textViewMainIndex) {
+    public RecyclerViewItem(String textViewNumber, String textViewSortSurname, String textViewClub, String textViewAmplua, String textViewAvarageQuantityFO, String textViewIndexQuality, String textViewMainIndex) {
+        this.textViewNumber = textViewNumber;
         this.textViewSortSurname = textViewSortSurname;
         this.textViewClub = textViewClub;
         this.textViewAmplua = textViewAmplua;
@@ -18,6 +20,9 @@ public class RecyclerViewItem {
         this.textViewMainIndex = textViewMainIndex;
     }
 
+    public String getTextViewNumber() {
+        return textViewNumber;
+    }
 
     public String getTextViewSortSurname() {
         return textViewSortSurname;

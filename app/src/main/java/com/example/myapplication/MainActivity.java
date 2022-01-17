@@ -3,8 +3,11 @@ package com.example.myapplication;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.ProgressBar;
+import android.widget.Spinner;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -24,20 +27,25 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 
 import java.io.IOException;
-import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
     ArrayList <Player> playersArrayList = new ArrayList<>();
-    Document doc;
     private RecyclerView recyclerView;
     private RecyclerView.Adapter adapter;
     private RecyclerView.LayoutManager layoutManager;
     ArrayList<RecyclerViewItem> recyclerViewItems = new ArrayList<>();
     JSOUPAsyncTask jsoupAsyncTask;
+    int requiredNumberOfCycles;
+    int numbersCompletedCycles;
+    ProgressBar progressBar;
+    Spinner spinner;
+    ArrayAdapter spinnerAdapter;
+    int selectedAmplua;
+
 
 
     @Override
@@ -46,24 +54,59 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         getArrayListAllPlayersFromJsonRequest("https://www.sports.ru/fantasy/basketball/team/create/150.json", getApplicationContext());
-        Log.i("getAveragePointsPerMatchById", "start on create");
 
+        progressBar = findViewById(R.id.progressBar);
 
         recyclerView = findViewById(R.id.recyclerView);
         layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
 
+        spinner = findViewById(R.id.spinner);
+        spinnerAdapter = ArrayAdapter.createFromResource (this, R.array.amplua_array_list, android.R.layout.simple_spinner_item);
+        spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(spinnerAdapter);
+        spinner.setOnItemSelectedListener(this);
+
+
+        adapter = new RecyclerViewAdapter(recyclerViewItems);
+        recyclerView.setAdapter(adapter);
+
+
     }
 
-    class JSOUPAsyncTask extends AsyncTask<Void, Void, Void> {
+    @Override
+    public void onItemSelected(AdapterView<?> adapterView, View view, int position, long l) {
+        selectedAmplua = position;                ;
+        outputArrayListAllPlayersInRecyclerView(selectedAmplua);
+
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> adapterView) {
+
+    }
+
+    class JSOUPAsyncTask extends AsyncTask<Integer, Void, Void> {
 
         @Override
-        protected Void doInBackground(Void... voids) {
+        protected void onPreExecute(){
 
-            for(int i=0;i<playersArrayList.size();i++){
+            progressBar.setVisibility(ProgressBar.VISIBLE);
 
-                doc = null;
+        }
 
+        @Override
+        protected Void doInBackground(Integer... integers) {
+
+            int q = integers[0].intValue();
+            int maxSize = q * 50;
+            if (q*50>playersArrayList.size()){
+                maxSize = playersArrayList.size();
+            }
+
+
+            for (int i=q*50-50;i<maxSize;i++){
+                Document doc = null;
                 try {
                     doc = Jsoup.newSession().url("https://www.sports.ru/fantasy/basketball/player/info/150/" + playersArrayList.get(i).id + ".html").get();
 
@@ -73,11 +116,9 @@ public class MainActivity extends AppCompatActivity {
                                 select("tr").get(4).
                                 select("td").first().text());
 
-                        Log.i("getAveragePointsPerMatchById","GOOOODDD   -" + i + "   -" + playersArrayList.get(i).id  + "   -" + playersArrayList.get(i).averagePointsPerMatch);
                     } catch (NumberFormatException e) {
                         e.printStackTrace();
                         playersArrayList.get(i).averagePointsPerMatch = 0;
-                        Log.i("getAveragePointsPerMatchById","ERRRRROOOOOOOOOOOOOOOOOOOORRRRRR   -" + playersArrayList.get(i).id + "   -   " + playersArrayList.get(i).averagePointsPerMatch);
                     }
 
 
@@ -90,58 +131,38 @@ public class MainActivity extends AppCompatActivity {
             }
 
 
-
-            for(int i=0;i<playersArrayList.size();i++){
-
-                playersArrayList.get(i).shortPrice = playersArrayList.get(i).start_value / 100; //відкидаємо два останні нулі. так Кот сказав
-
-                if (playersArrayList.get(i).averagePointsPerMatch != 0) {
-                    playersArrayList.get(i).quantityOfGame = (int) Math.round(playersArrayList.get(i).points / playersArrayList.get(i).averagePointsPerMatch);
-                    playersArrayList.get(i).indexQuality = (float) playersArrayList.get(i).points / playersArrayList.get(i).shortPrice / playersArrayList.get(i).quantityOfGame;
-                    playersArrayList.get(i).mainIndex = (float) playersArrayList.get(i).indexQuality * playersArrayList.get(i).averagePointsPerMatch;
-                } else {
-                    playersArrayList.get(i).quantityOfGame = 0;
-                    playersArrayList.get(i).indexQuality = 0;
-                    playersArrayList.get(i).mainIndex = 0;
-                }
-
-            }
-
-            Collections.sort(playersArrayList, new Comparator<Player>() {
-                @Override
-                public int compare(Player player1, Player player2) {
-                    return Double.compare(player2.mainIndex, player1.mainIndex);
-                }
-            });
-
-            for(int i=0;i<playersArrayList.size();i++){
-
-                recyclerViewItems.add(new RecyclerViewItem(
-                        playersArrayList.get(i).sort_surname,
-                        playersArrayList.get(i).club,
-                        playersArrayList.get(i).amplua + "",
-                        String.format("%.2f", playersArrayList.get(i).averagePointsPerMatch),
-                        String.format("%.2f", playersArrayList.get(i).indexQuality),
-                        String.format("%.2f", playersArrayList.get(i).mainIndex)));
-            }
-
-
-
-
-
-
             return null;
         }
 
         @Override
         protected void onPostExecute(Void result) {
 
-            adapter = new RecyclerViewAdapter(recyclerViewItems);
-            recyclerView.setAdapter(adapter);
+            numbersCompletedCycles++;
+            if (numbersCompletedCycles==requiredNumberOfCycles){
+                sortingArrayListAllPlayers();
+                outputArrayListAllPlayersInRecyclerView(selectedAmplua);
+                progressBar.setVisibility(ProgressBar.INVISIBLE);
+            }
 
         }
     }
 
+    public void onClickButton(View view) {
+
+        requiredNumberOfCycles = (int) Math.ceil((double) playersArrayList.size()/50); // визначається скільки потрібно AsyncTask, якщо групувати запити по 50шт
+//        requiredNumberOfCycles = 1; // для тестування тільки 1 пакета запитів
+        numbersCompletedCycles = 0;
+
+        for(int i=1;i<=requiredNumberOfCycles;i++){
+
+            jsoupAsyncTask = new JSOUPAsyncTask();
+            jsoupAsyncTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, i);
+
+        }
+
+    }
+
+    //виконується Json-запит для того, щоб стягнути базу всіх гравців і засунути їх в масив playersArrayList
     public void getArrayListAllPlayersFromJsonRequest (String url, Context context){
 
         RequestQueue requestQueue = Volley.newRequestQueue(context);
@@ -199,16 +220,83 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    public void onClickButton(View view) {
+    //обрахунки по формулам Кота і сортування масиву по головному індексу
+    public void sortingArrayListAllPlayers () {
 
-        Log.i("getAveragePointsPerMatchById", "start onClickButton. array size" + playersArrayList.size());
+        for(int i=0;i<playersArrayList.size();i++){
 
+            playersArrayList.get(i).shortPrice = playersArrayList.get(i).start_value / 100; //відкидаємо два останні нулі. так Кот сказав
 
+            if (playersArrayList.get(i).averagePointsPerMatch != 0) {
+                playersArrayList.get(i).quantityOfGame = (int) Math.round(playersArrayList.get(i).points / playersArrayList.get(i).averagePointsPerMatch);
+                playersArrayList.get(i).indexQuality = (float) playersArrayList.get(i).points / playersArrayList.get(i).shortPrice / playersArrayList.get(i).quantityOfGame;
+                playersArrayList.get(i).mainIndex = (float) playersArrayList.get(i).indexQuality * playersArrayList.get(i).averagePointsPerMatch;
+            } else {
+                playersArrayList.get(i).quantityOfGame = 0;
+                playersArrayList.get(i).indexQuality = 0;
+                playersArrayList.get(i).mainIndex = 0;
+            }
 
-        jsoupAsyncTask = new JSOUPAsyncTask();
-        jsoupAsyncTask.execute();
+        }
+
+        Collections.sort(playersArrayList, new Comparator<Player>() {
+            @Override
+            public int compare(Player player1, Player player2) {
+                return Double.compare(player2.mainIndex, player1.mainIndex);
+            }
+        });
 
     }
 
+    //наповення RecyclerView гравцями вибраного амплуа
+    public void outputArrayListAllPlayersInRecyclerView (int position){
+
+        int number = 0;
+        recyclerViewItems.clear();
+        for(int i=0;i<playersArrayList.size();i++){
+
+            String amplua;
+
+            switch(playersArrayList.get(i).amplua){
+
+                case 1:
+                    amplua = "PG"; //Разыгрывающий защитник
+                    break;
+                case 2:
+                    amplua = "SG"; //Атакующий защитник
+                    break;
+                case 3:
+                    amplua = "SF"; //Легкий форвард
+                    break;
+                case 4:
+                    amplua = "PF"; //Тяжелый форвард
+                    break;
+                case 5:
+                    amplua = "C"; //Центровой
+                    break;
+                default:
+                    amplua = "--"; // don't found
+            }
+
+            if (position==0|position==playersArrayList.get(i).amplua){
+                number++;
+                recyclerViewItems.add(new RecyclerViewItem(
+                        String.valueOf(number),// і починається з нуля
+                        playersArrayList.get(i).sort_surname,
+                        playersArrayList.get(i).club,
+                        amplua,
+                        String.format("%.2f", playersArrayList.get(i).averagePointsPerMatch),
+                        String.format("%.2f", playersArrayList.get(i).indexQuality),
+                        String.format("%.2f", playersArrayList.get(i).mainIndex)));
+            }
+
+
+        }
+
+        adapter = new RecyclerViewAdapter(recyclerViewItems);
+        recyclerView.setAdapter(adapter);
+
+
+    }
 
 }

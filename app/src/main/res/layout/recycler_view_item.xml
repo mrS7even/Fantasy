@@ -6,7 +6,7 @@
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     app:cardCornerRadius="4dp"
-    android:layout_margin="4dp"
+    android:layout_margin="2dp"
     android:background="@android:color/darker_gray"
     >
 
@@ -14,48 +14,78 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:weightSum="6"
-
-
+        android:weightSum="6.5"
         >
+
+        <TextView
+            android:id="@+id/text_view_number"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.5"
+            android:text="test"
+            android:gravity="center"
+            android:textSize="16sp"
+
+            />
 
 
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="3"
+            android:layout_weight="2"
             android:orientation="vertical"
-            android:weightSum="4">
+            android:weightSum="2">
 
             <TextView
                 android:id="@+id/text_view_sort_surname"
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="2"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="test"
+                android:paddingLeft="4dp"
+                android:textStyle="bold"
+                android:textSize="24sp"
+                android:gravity="center_vertical"
+
+
                 />
 
             <TextView
                 android:id="@+id/text_view_club"
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
+                android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:text="test"
+                android:paddingLeft="4dp"
+                android:textSize="16sp"
+                android:gravity="top"
+
                 />
 
-            <TextView
-                android:id="@+id/text_view_amplua"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                />
+
 
 
         </LinearLayout>
+
+        <TextView
+            android:id="@+id/text_view_amplua"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="test"
+            android:gravity="center"
+            android:textSize="20sp"
+
+            />
 
         <TextView
             android:id="@+id/text_view_avarage_quantity_FO"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
+            android:text="test"
+            android:gravity="center_vertical|right"
+            android:textSize="20sp"
             />
 
         <TextView
@@ -63,13 +93,20 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
+            android:text="test"
+            android:gravity="center_vertical|right"
+            android:textSize="20sp"
             />
 
         <TextView
             android:id="@+id/text_view_main_index"
             android:layout_width="0dp"
             android:layout_height="match_parent"
+            android:gravity="center_vertical|right"
+            android:text="test"
             android:layout_weight="1"
+            android:textSize="20sp"
+            android:paddingRight="4dp"
             />
 
 

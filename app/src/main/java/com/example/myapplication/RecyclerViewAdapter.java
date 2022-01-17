@@ -29,6 +29,8 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     public void onBindViewHolder(@NonNull RecyclerViewViewHolder holder, int position) {
 
         RecyclerViewItem recyclerViewItem = arrayList.get(position);
+
+        holder.textViewNumber.setText(recyclerViewItem.getTextViewNumber());
         holder.textViewSortSurname.setText(recyclerViewItem.getTextViewSortSurname());
         holder.textViewClub.setText(recyclerViewItem.getTextViewClub());
         holder.textViewAmplua.setText(recyclerViewItem.getTextViewAmplua());
@@ -47,6 +49,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
     public static class RecyclerViewViewHolder extends RecyclerView.ViewHolder{
 
+        public TextView textViewNumber;
         public TextView textViewSortSurname;
         public TextView textViewClub;
         public TextView textViewAmplua;
@@ -56,6 +59,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
         public RecyclerViewViewHolder(@NonNull View itemView) {
             super(itemView);
+            textViewNumber = itemView.findViewById(R.id.text_view_number);
             textViewSortSurname = itemView.findViewById(R.id.text_view_sort_surname);
             textViewClub = itemView.findViewById(R.id.text_view_club);
             textViewAmplua = itemView.findViewById(R.id.text_view_amplua);
