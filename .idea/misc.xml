@@ -3,6 +3,12 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Programs/Android/AndroidStudioProjects/Fantasy/app/src/main/res/layout/activity_main.xml" value="0.176" />
+        <entry key="..\:/Programs/Android/AndroidStudioProjects/Fantasy/app/src/main/res/layout/recycler_view_item.xml" value="0.25416666666666665" />
+        <entry key="..\:/Programs/Android/AndroidStudioProjects/Fantasy/app/src/main/res/layout/spiner_dropdown.xml" value="0.1484375" />
+        <entry key="..\:/Programs/Android/AndroidStudioProjects/Fantasy/app/src/main/res/layout/spiner_text.xml" value="0.176" />
+        <entry key="..\:/Programs/Android/Sdk/platforms/android-32/data/res/layout/simple_spinner_dropdown_item.xml" value="0.2" />
+        <entry key="..\:/Programs/Android/Sdk/platforms/android-32/data/res/layout/simple_spinner_item.xml" value="0.264" />
         <entry key="..\:/Programs/AndroidStudioProjects/MyApplication/app/src/main/res/drawable/ic_baseline_refresh_24.xml" value="0.2703125" />
         <entry key="..\:/Programs/AndroidStudioProjects/MyApplication/app/src/main/res/layout/activity_main.xml" value="0.32621951219512196" />
         <entry key="..\:/Programs/AndroidStudioProjects/MyApplication/app/src/main/res/layout/recycler_view_item.xml" value="0.42153047989623865" />

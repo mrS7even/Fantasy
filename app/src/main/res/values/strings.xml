@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">My Application</string>
+    <string name="app_name">Fantasy</string>
 
     <string-array name="amplua_array_list">
         <item>ALL - все амплуа</item>
@@ -8,6 +8,15 @@
         <item>SF - Легкий форвард</item>
         <item>PF - Тяжелый форвард</item>
         <item>C - Центровой</item>
+    </string-array>
+
+    <string-array name="abbreviation_amplua_array_list">
+        <item>ALL</item>
+        <item>PG</item>
+        <item>SG</item>
+        <item>SF</item>
+        <item>PF</item>
+        <item>C</item>
     </string-array>
 
 

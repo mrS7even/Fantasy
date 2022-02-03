@@ -1,4 +1,4 @@
-package com.example.myapplication;
+package com.example.fantasy;
 
 import android.content.Context;
 import android.os.AsyncTask;
@@ -8,6 +8,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -62,7 +63,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         recyclerView.setLayoutManager(layoutManager);
 
         spinner = findViewById(R.id.spinner);
-        spinnerAdapter = ArrayAdapter.createFromResource (this, R.array.amplua_array_list, android.R.layout.simple_spinner_item);
+        spinnerAdapter = ArrayAdapter.createFromResource (this, R.array.amplua_array_list, R.layout.spiner_text);
         spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(spinnerAdapter);
         spinner.setOnItemSelectedListener(this);
@@ -76,8 +77,13 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
     @Override
     public void onItemSelected(AdapterView<?> adapterView, View view, int position, long l) {
+
+        TextView selectedText = (TextView) adapterView.getChildAt(0);
+        selectedText.setText(getResources().getStringArray(R.array.abbreviation_amplua_array_list)[position]);
+
         selectedAmplua = position;                ;
         outputArrayListAllPlayersInRecyclerView(selectedAmplua);
+
 
     }
 
