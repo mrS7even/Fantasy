@@ -7,17 +7,9 @@
     android:orientation="vertical"
     tools:context=".MainActivity"
     android:background="#F7F7F7"
-
-
     >
 
-    <ProgressBar
-        android:id="@+id/progressBar"
-        style="?android:attr/progressBarStyle"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/white"
-        android:visibility="invisible" />
+
 
 
     <androidx.recyclerview.widget.RecyclerView
@@ -30,6 +22,7 @@
         android:padding="2dp"
 
         android:scrollbars="vertical" />
+
 
     <LinearLayout
         android:id="@+id/title_linear_layout"
@@ -158,6 +151,44 @@
         android:background="@null"
 
         />
+
+    <RelativeLayout
+        android:id="@+id/relative_layout_progress_bar"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_centerInParent="true"
+        android:visibility="invisible"
+        android:background="#F7F7F7"
+        >
+
+        <ProgressBar
+            android:id="@+id/progress_bar"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_centerInParent="true"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:progressDrawable="@drawable/circular_progress_bar"
+            android:background="@drawable/circle_shape"
+            android:indeterminate="false"
+
+            />
+
+        <TextView
+            android:id="@+id/progress_bar_text_view"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:gravity="center"
+            android:textSize="24sp"
+            android:textColor="#007DD6"
+            android:layout_centerInParent="true"
+
+
+
+            />
+
+
+
+    </RelativeLayout>
 
 
 

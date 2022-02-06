@@ -3,7 +3,10 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Programs/Android/AndroidStudioProjects/Fantasy/app/src/main/res/drawable/circular_progress_bar.xml" value="0.158" />
         <entry key="..\:/Programs/Android/AndroidStudioProjects/Fantasy/app/src/main/res/layout/activity_main.xml" value="0.176" />
+        <entry key="..\:/Programs/Android/AndroidStudioProjects/Fantasy/app/src/main/res/layout/circle_shape.xml" value="0.23052536231884058" />
+        <entry key="..\:/Programs/Android/AndroidStudioProjects/Fantasy/app/src/main/res/layout/circular_progress_bar.xml" value="0.23052536231884058" />
         <entry key="..\:/Programs/Android/AndroidStudioProjects/Fantasy/app/src/main/res/layout/recycler_view_item.xml" value="0.25416666666666665" />
         <entry key="..\:/Programs/Android/AndroidStudioProjects/Fantasy/app/src/main/res/layout/spiner_dropdown.xml" value="0.1484375" />
         <entry key="..\:/Programs/Android/AndroidStudioProjects/Fantasy/app/src/main/res/layout/spiner_text.xml" value="0.176" />

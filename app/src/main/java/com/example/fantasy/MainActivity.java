@@ -1,12 +1,15 @@
 package com.example.fantasy;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -43,9 +46,12 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     int requiredNumberOfCycles;
     int numbersCompletedCycles;
     ProgressBar progressBar;
+    TextView progressBarTextView;
+    RelativeLayout relativeLayoutProgressBar;
     Spinner spinner;
     ArrayAdapter spinnerAdapter;
     int selectedAmplua;
+    int numbersCompletedRequest;
 
 
 
@@ -56,7 +62,9 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
         getArrayListAllPlayersFromJsonRequest("https://www.sports.ru/fantasy/basketball/team/create/150.json", getApplicationContext());
 
-        progressBar = findViewById(R.id.progressBar);
+        progressBar = findViewById(R.id.progress_bar);
+        progressBarTextView =findViewById(R.id.progress_bar_text_view);
+        relativeLayoutProgressBar = findViewById(R.id.relative_layout_progress_bar);
 
         recyclerView = findViewById(R.id.recyclerView);
         layoutManager = new LinearLayoutManager(this);
@@ -92,12 +100,15 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
     }
 
-    class JSOUPAsyncTask extends AsyncTask<Integer, Void, Void> {
+    class JSOUPAsyncTask extends AsyncTask<Integer, Integer, Void> {
 
         @Override
         protected void onPreExecute(){
 
-            progressBar.setVisibility(ProgressBar.VISIBLE);
+//            progressBar.setVisibility(ProgressBar.VISIBLE);
+//            progressBarTextView.setVisibility(TextView.VISIBLE);
+            progressBarTextView.setText("0 / " + playersArrayList.size());
+            relativeLayoutProgressBar.setVisibility(View.VISIBLE);
 
         }
 
@@ -122,12 +133,16 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                                 select("tr").get(4).
                                 select("td").first().text());
 
+
+
                     } catch (NumberFormatException e) {
                         e.printStackTrace();
                         playersArrayList.get(i).averagePointsPerMatch = 0;
                     }
 
-
+                    numbersCompletedRequest++;
+                    Log.i("progress-numbersCompletedRequest", "progress - " + numbersCompletedRequest);
+                    publishProgress(numbersCompletedRequest);
 
 
                 } catch (IOException e) {
@@ -137,8 +152,28 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             }
 
 
+
+
+
             return null;
         }
+
+        @Override
+        protected void onProgressUpdate(Integer... progress) {
+
+            int p = progress[0].intValue();
+            Log.i("progress", "progress work!");
+            Log.i("progress", String.valueOf(p));
+            progressBar.setProgress(p);
+            progressBarTextView.setText(p + " / " + playersArrayList.size());
+
+
+
+
+        }
+
+
+
 
         @Override
         protected void onPostExecute(Void result) {
@@ -147,7 +182,9 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             if (numbersCompletedCycles==requiredNumberOfCycles){
                 sortingArrayListAllPlayers();
                 outputArrayListAllPlayersInRecyclerView(selectedAmplua);
-                progressBar.setVisibility(ProgressBar.INVISIBLE);
+//                progressBar.setVisibility(ProgressBar.INVISIBLE);
+//                progressBarTextView.setVisibility(TextView.INVISIBLE);
+                relativeLayoutProgressBar.setVisibility(View.INVISIBLE);
             }
 
         }
@@ -156,8 +193,10 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     public void onClickButton(View view) {
 
         requiredNumberOfCycles = (int) Math.ceil((double) playersArrayList.size()/50); // визначається скільки потрібно AsyncTask, якщо групувати запити по 50шт
-//        requiredNumberOfCycles = 1; // для тестування тільки 1 пакета запитів
+        requiredNumberOfCycles = 2; // для тестування тільки 1 пакета запитів
         numbersCompletedCycles = 0;
+        numbersCompletedRequest = 0;
+        progressBar.setMax(playersArrayList.size());
 
         for(int i=1;i<=requiredNumberOfCycles;i++){
 
