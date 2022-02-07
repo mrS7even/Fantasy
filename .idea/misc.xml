@@ -3,13 +3,20 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Programs/Android/AndroidStudioProjects/Fantasy/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.1765" />
         <entry key="..\:/Programs/Android/AndroidStudioProjects/Fantasy/app/src/main/res/drawable/circular_progress_bar.xml" value="0.158" />
-        <entry key="..\:/Programs/Android/AndroidStudioProjects/Fantasy/app/src/main/res/layout/activity_main.xml" value="0.176" />
+        <entry key="..\:/Programs/Android/AndroidStudioProjects/Fantasy/app/src/main/res/drawable/ic_baseline_arrow_drop_down.xml" value="0.1765" />
+        <entry key="..\:/Programs/Android/AndroidStudioProjects/Fantasy/app/src/main/res/drawable/ic_baseline_arrow_drop_down_24.xml" value="0.1765" />
+        <entry key="..\:/Programs/Android/AndroidStudioProjects/Fantasy/app/src/main/res/drawable/ic_baseline_arrow_drop_up.xml" value="0.1765" />
+        <entry key="..\:/Programs/Android/AndroidStudioProjects/Fantasy/app/src/main/res/drawable/ic_baseline_arrow_drop_up_24.xml" value="0.1765" />
+        <entry key="..\:/Programs/Android/AndroidStudioProjects/Fantasy/app/src/main/res/drawable/ic_baseline_refresh_48.xml" value="0.1765" />
+        <entry key="..\:/Programs/Android/AndroidStudioProjects/Fantasy/app/src/main/res/drawable/ic_launcher_background.xml" value="0.1765" />
+        <entry key="..\:/Programs/Android/AndroidStudioProjects/Fantasy/app/src/main/res/layout/activity_main.xml" value="0.15701881331403764" />
         <entry key="..\:/Programs/Android/AndroidStudioProjects/Fantasy/app/src/main/res/layout/circle_shape.xml" value="0.23052536231884058" />
         <entry key="..\:/Programs/Android/AndroidStudioProjects/Fantasy/app/src/main/res/layout/circular_progress_bar.xml" value="0.23052536231884058" />
         <entry key="..\:/Programs/Android/AndroidStudioProjects/Fantasy/app/src/main/res/layout/recycler_view_item.xml" value="0.25416666666666665" />
         <entry key="..\:/Programs/Android/AndroidStudioProjects/Fantasy/app/src/main/res/layout/spiner_dropdown.xml" value="0.1484375" />
-        <entry key="..\:/Programs/Android/AndroidStudioProjects/Fantasy/app/src/main/res/layout/spiner_text.xml" value="0.176" />
+        <entry key="..\:/Programs/Android/AndroidStudioProjects/Fantasy/app/src/main/res/layout/spiner_text.xml" value="0.2" />
         <entry key="..\:/Programs/Android/Sdk/platforms/android-32/data/res/layout/simple_spinner_dropdown_item.xml" value="0.2" />
         <entry key="..\:/Programs/Android/Sdk/platforms/android-32/data/res/layout/simple_spinner_item.xml" value="0.264" />
         <entry key="..\:/Programs/AndroidStudioProjects/MyApplication/app/src/main/res/drawable/ic_baseline_refresh_24.xml" value="0.2703125" />

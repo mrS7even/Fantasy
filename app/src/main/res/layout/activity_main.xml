@@ -101,32 +101,125 @@
             android:background="@null"
             />
 
-        <TextView
+        <RelativeLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:gravity="center_vertical|right"
-            android:text="AP"
-            android:textSize="20sp" />
+            android:layout_weight="1">
 
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:text="IQ"
-            android:gravity="center_vertical|right"
-            android:textSize="20sp"
-            />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:text="AP"
+                android:textSize="20sp" />
 
-        <TextView
+            <ImageView
+                android:id="@+id/arrow_up_AP"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:onClick="onClickArrowUpAP"
+                android:src="@drawable/ic_baseline_arrow_drop_up_24"
+
+                app:tint="#FFB9AFAF" />
+
+            <ImageView
+                android:id="@+id/arrow_down_AP"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"
+                android:src="@drawable/ic_baseline_arrow_drop_down_24"
+                android:onClick="onClickArrowDownAP"
+
+                app:tint="#FFB9AFAF" />
+
+
+
+        </RelativeLayout>
+
+
+        <RelativeLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:gravity="center_vertical|right"
-            android:text="MI"
-            android:layout_weight="1"
-            android:textSize="20sp"
-            android:paddingRight="8dp"
-            />
+            android:layout_weight="1">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:text="IQ"
+                android:textSize="20sp"
+                />
+
+            <ImageView
+                android:id="@+id/arrow_up_IQ"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:src="@drawable/ic_baseline_arrow_drop_up_24"
+                android:onClick="onClickArrowUpIQ"
+
+                app:tint="#FFB9AFAF" />
+
+            <ImageView
+                android:id="@+id/arrow_down_IQ"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"
+                android:src="@drawable/ic_baseline_arrow_drop_down_24"
+                android:onClick="onClickArrowDownIQ"
+
+                app:tint="#FFB9AFAF" />
+
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:text="MI"
+                android:textSize="20sp"
+
+                />
+
+            <ImageView
+                android:id="@+id/arrow_up_MI"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:src="@drawable/ic_baseline_arrow_drop_up_24"
+                android:onClick="onClickArrowUpMI"
+
+                app:tint="#FFB9AFAF" />
+
+            <ImageView
+                android:id="@+id/arrow_down_MI"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"
+                android:src="@drawable/ic_baseline_arrow_drop_down_24"
+                android:onClick="onClickArrowDownMI"
+
+                app:tint="#FFB9AFAF" />
+
+
+        </RelativeLayout>
+
+
+
+
 
 
 
@@ -139,16 +232,16 @@
     </LinearLayout>
 
     <ImageButton
-        android:layout_marginBottom="4dp"
         android:id="@+id/button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Button"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:onClick="onClickButton"
-        android:src="@drawable/ic_baseline_refresh_48"
+        android:layout_marginBottom="4dp"
         android:background="@null"
+        android:onClick="onClickButtonUpdate"
+        android:src="@drawable/ic_baseline_refresh_48"
+        android:text="Button"
 
         />
 
@@ -156,20 +249,18 @@
         android:id="@+id/relative_layout_progress_bar"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_centerInParent="true"
-        android:visibility="invisible"
         android:background="#F7F7F7"
-        >
+        android:visibility="invisible">
 
         <ProgressBar
             android:id="@+id/progress_bar"
             style="?android:attr/progressBarStyleHorizontal"
-            android:layout_centerInParent="true"
             android:layout_width="200dp"
             android:layout_height="200dp"
-            android:progressDrawable="@drawable/circular_progress_bar"
+            android:layout_centerInParent="true"
             android:background="@drawable/circle_shape"
             android:indeterminate="false"
+            android:progressDrawable="@drawable/circular_progress_bar"
 
             />
 
@@ -177,20 +268,16 @@
             android:id="@+id/progress_bar_text_view"
             android:layout_width="200dp"
             android:layout_height="200dp"
-            android:gravity="center"
-            android:textSize="24sp"
-            android:textColor="#007DD6"
             android:layout_centerInParent="true"
-
+            android:gravity="center"
+            android:textColor="#007DD6"
+            android:textSize="24sp"
 
 
             />
 
 
-
     </RelativeLayout>
-
-
 
 
 </RelativeLayout>

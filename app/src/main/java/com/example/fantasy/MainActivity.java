@@ -8,10 +8,12 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -52,6 +54,14 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     ArrayAdapter spinnerAdapter;
     int selectedAmplua;
     int numbersCompletedRequest;
+    int sortingPosition;
+    ImageView arrowUpAP;
+    ImageView arrowDownAP;
+    ImageView arrowUpIQ;
+    ImageView arrowDownIQ;
+    ImageView arrowUpMI;
+    ImageView arrowDownMI;
+
 
 
 
@@ -65,6 +75,13 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         progressBar = findViewById(R.id.progress_bar);
         progressBarTextView =findViewById(R.id.progress_bar_text_view);
         relativeLayoutProgressBar = findViewById(R.id.relative_layout_progress_bar);
+
+        arrowUpAP = findViewById(R.id.arrow_up_AP);
+        arrowDownAP = findViewById(R.id.arrow_down_AP);
+        arrowUpIQ = findViewById(R.id.arrow_up_IQ);
+        arrowDownIQ = findViewById(R.id.arrow_down_IQ);
+        arrowUpMI = findViewById(R.id.arrow_up_MI);
+        arrowDownMI = findViewById(R.id.arrow_down_MI);
 
         recyclerView = findViewById(R.id.recyclerView);
         layoutManager = new LinearLayoutManager(this);
@@ -80,6 +97,10 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         adapter = new RecyclerViewAdapter(recyclerViewItems);
         recyclerView.setAdapter(adapter);
 
+        //за замовчуванням сортуємо по спаданню по ідексу MI і вибрані всі амплуа
+        selectedAmplua = 0;
+        sortingPosition = 0;
+        arrowDownMI.setColorFilter(0xFF6200EE);
 
     }
 
@@ -180,7 +201,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
             numbersCompletedCycles++;
             if (numbersCompletedCycles==requiredNumberOfCycles){
-                sortingArrayListAllPlayers();
+                calculationIndicesArrayListAllPlayers();
                 outputArrayListAllPlayersInRecyclerView(selectedAmplua);
 //                progressBar.setVisibility(ProgressBar.INVISIBLE);
 //                progressBarTextView.setVisibility(TextView.INVISIBLE);
@@ -190,10 +211,11 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         }
     }
 
-    public void onClickButton(View view) {
+    //виконуються груповані асинхронні запити по кожному гравцеві
+    public void onClickButtonUpdate(View view) {
 
         requiredNumberOfCycles = (int) Math.ceil((double) playersArrayList.size()/50); // визначається скільки потрібно AsyncTask, якщо групувати запити по 50шт
-        requiredNumberOfCycles = 2; // для тестування тільки 1 пакета запитів
+//        requiredNumberOfCycles = 1; // для тестування тільки 1 пакета запитів
         numbersCompletedCycles = 0;
         numbersCompletedRequest = 0;
         progressBar.setMax(playersArrayList.size());
@@ -264,9 +286,66 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
 
     }
+    
+    //сортування масиву по вибраному індексу
+    public void sortingArrayListAllPlayers (){
 
-    //обрахунки по формулам Кота і сортування масиву по головному індексу
-    public void sortingArrayListAllPlayers () {
+        switch(sortingPosition){
+
+            case 0: // сортування по спаданню MI
+                Collections.sort(playersArrayList, new Comparator<Player>() {
+                    @Override
+                    public int compare(Player player1, Player player2) {
+                        return Double.compare(player2.mainIndex, player1.mainIndex);
+                    }
+                });
+                break;
+            case 1:// сортування по зростанню AP
+                Collections.sort(playersArrayList, new Comparator<Player>() {
+                    @Override
+                    public int compare(Player player1, Player player2) {
+                        return Double.compare(player1.averagePointsPerMatch, player2.averagePointsPerMatch);
+                    }
+                });
+                break;
+            case 2:// сортування по спаданню AP
+                Collections.sort(playersArrayList, new Comparator<Player>() {
+                    @Override
+                    public int compare(Player player1, Player player2) {
+                        return Double.compare(player2.averagePointsPerMatch, player1.averagePointsPerMatch);
+                    }
+                });
+                break;
+            case 3:// сортування по зростанню IQ
+                Collections.sort(playersArrayList, new Comparator<Player>() {
+                    @Override
+                    public int compare(Player player1, Player player2) {
+                        return Double.compare(player1.indexQuality, player2.indexQuality);
+                    }
+                });
+                break;
+            case 4:// сортування по спаданню IQ
+                Collections.sort(playersArrayList, new Comparator<Player>() {
+                    @Override
+                    public int compare(Player player1, Player player2) {
+                        return Double.compare(player2.indexQuality, player1.indexQuality);
+                    }
+                });
+                break;
+            case 5: // сортування по зростанню MI
+                Collections.sort(playersArrayList, new Comparator<Player>() {
+                    @Override
+                    public int compare(Player player1, Player player2) {
+                        return Double.compare(player1.mainIndex, player2.mainIndex);
+                    }
+                });
+                break;
+        }
+
+    }
+    
+    //обрахунки по формулам Кота і виклик сортування
+    public void calculationIndicesArrayListAllPlayers () {
 
         for(int i=0;i<playersArrayList.size();i++){
 
@@ -284,15 +363,10 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
         }
 
-        Collections.sort(playersArrayList, new Comparator<Player>() {
-            @Override
-            public int compare(Player player1, Player player2) {
-                return Double.compare(player2.mainIndex, player1.mainIndex);
-            }
-        });
+        sortingArrayListAllPlayers ();
 
     }
-
+    
     //наповення RecyclerView гравцями вибраного амплуа
     public void outputArrayListAllPlayersInRecyclerView (int position){
 
@@ -341,6 +415,90 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         adapter = new RecyclerViewAdapter(recyclerViewItems);
         recyclerView.setAdapter(adapter);
 
+
+    }
+
+    public void onClickArrowUpAP(View view) {
+        sortingPosition = 1;
+        sortingArrayListAllPlayers();
+        outputArrayListAllPlayersInRecyclerView(selectedAmplua);
+
+        arrowUpAP.setColorFilter(0xFF6200EE); //не такий як інші
+        arrowDownAP.setColorFilter(0xFFB9AFAF);
+        arrowUpIQ.setColorFilter(0xFFB9AFAF);
+        arrowDownIQ.setColorFilter(0xFFB9AFAF);
+        arrowUpMI.setColorFilter(0xFFB9AFAF);
+        arrowDownMI.setColorFilter(0xFFB9AFAF);
+
+    }
+
+    public void onClickArrowDownAP(View view) {
+        sortingPosition = 2;
+        sortingArrayListAllPlayers();
+        outputArrayListAllPlayersInRecyclerView(selectedAmplua);
+
+        arrowUpAP.setColorFilter(0xFFB9AFAF);
+        arrowDownAP.setColorFilter(0xFF6200EE); //не такий як інші
+        arrowUpIQ.setColorFilter(0xFFB9AFAF);
+        arrowDownIQ.setColorFilter(0xFFB9AFAF);
+        arrowUpMI.setColorFilter(0xFFB9AFAF);
+        arrowDownMI.setColorFilter(0xFFB9AFAF);
+
+    }
+
+    public void onClickArrowUpIQ(View view) {
+        sortingPosition = 3;
+        sortingArrayListAllPlayers();
+        outputArrayListAllPlayersInRecyclerView(selectedAmplua);
+
+        arrowUpAP.setColorFilter(0xFFB9AFAF);
+        arrowDownAP.setColorFilter(0xFFB9AFAF);
+        arrowUpIQ.setColorFilter(0xFF6200EE); //не такий як інші
+        arrowDownIQ.setColorFilter(0xFFB9AFAF);
+        arrowUpMI.setColorFilter(0xFFB9AFAF);
+        arrowDownMI.setColorFilter(0xFFB9AFAF);
+
+    }
+
+    public void onClickArrowDownIQ(View view) {
+        sortingPosition = 4;
+        sortingArrayListAllPlayers();
+        outputArrayListAllPlayersInRecyclerView(selectedAmplua);
+
+        arrowUpAP.setColorFilter(0xFFB9AFAF);
+        arrowDownAP.setColorFilter(0xFFB9AFAF);
+        arrowUpIQ.setColorFilter(0xFFB9AFAF);
+        arrowDownIQ.setColorFilter(0xFF6200EE);  //не такий як інші
+        arrowUpMI.setColorFilter(0xFFB9AFAF);
+        arrowDownMI.setColorFilter(0xFFB9AFAF);
+
+    }
+
+    public void onClickArrowUpMI(View view) {
+        sortingPosition = 5;
+        sortingArrayListAllPlayers();
+        outputArrayListAllPlayersInRecyclerView(selectedAmplua);
+
+        arrowUpAP.setColorFilter(0xFFB9AFAF);
+        arrowDownAP.setColorFilter(0xFFB9AFAF);
+        arrowUpIQ.setColorFilter(0xFFB9AFAF);
+        arrowDownIQ.setColorFilter(0xFFB9AFAF);
+        arrowUpMI.setColorFilter(0xFF6200EE); //не такий як інші
+        arrowDownMI.setColorFilter(0xFFB9AFAF);
+
+    }
+
+    public void onClickArrowDownMI(View view) {
+        sortingPosition = 0;
+        sortingArrayListAllPlayers();
+        outputArrayListAllPlayersInRecyclerView(selectedAmplua);
+
+        arrowUpAP.setColorFilter(0xFFB9AFAF);
+        arrowDownAP.setColorFilter(0xFFB9AFAF);
+        arrowUpIQ.setColorFilter(0xFFB9AFAF);
+        arrowDownIQ.setColorFilter(0xFFB9AFAF);
+        arrowUpMI.setColorFilter(0xFFB9AFAF);
+        arrowDownMI.setColorFilter(0xFF6200EE); //не такий як інші
 
     }
 
