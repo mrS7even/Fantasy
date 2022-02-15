@@ -18,6 +18,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -41,6 +42,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
     ArrayList <Player> playersArrayList = new ArrayList<>();
     private RecyclerView recyclerView;
+    private SwipeRefreshLayout swipeRefreshLayout;
     private RecyclerView.Adapter adapter;
     private RecyclerView.LayoutManager layoutManager;
     ArrayList<RecyclerViewItem> recyclerViewItems = new ArrayList<>();
@@ -61,9 +63,6 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     ImageView arrowDownIQ;
     ImageView arrowUpMI;
     ImageView arrowDownMI;
-
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,6 +86,16 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
 
+        swipeRefreshLayout = findViewById(R.id.swipe_container);
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                Log.i("onRefresh", "onRefresh called from SwipeRefreshLayout");
+                update();
+                swipeRefreshLayout.setRefreshing(false);
+            }
+        });
+
         spinner = findViewById(R.id.spinner);
         spinnerAdapter = ArrayAdapter.createFromResource (this, R.array.amplua_array_list, R.layout.spiner_text);
         spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -109,8 +118,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
         TextView selectedText = (TextView) adapterView.getChildAt(0);
         selectedText.setText(getResources().getStringArray(R.array.abbreviation_amplua_array_list)[position]);
-
-        selectedAmplua = position;                ;
+        selectedAmplua = position;
         outputArrayListAllPlayersInRecyclerView(selectedAmplua);
 
 
@@ -193,9 +201,6 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
         }
 
-
-
-
         @Override
         protected void onPostExecute(Void result) {
 
@@ -212,10 +217,10 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     }
 
     //виконуються груповані асинхронні запити по кожному гравцеві
-    public void onClickButtonUpdate(View view) {
+    public void update() {
 
         requiredNumberOfCycles = (int) Math.ceil((double) playersArrayList.size()/50); // визначається скільки потрібно AsyncTask, якщо групувати запити по 50шт
-//        requiredNumberOfCycles = 1; // для тестування тільки 1 пакета запитів
+        requiredNumberOfCycles = 1; // для тестування тільки 1 пакета запитів
         numbersCompletedCycles = 0;
         numbersCompletedRequest = 0;
         progressBar.setMax(playersArrayList.size());

@@ -10,18 +10,28 @@
     >
 
 
-
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerView"
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/swipe_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@+id/button"
         android:layout_below="@+id/title_linear_layout"
-        android:layout_marginBottom="0dp"
-        android:padding="2dp"
+        >
 
-        android:scrollbars="vertical" />
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="0dp"
+            android:padding="2dp"
+            android:scrollbars="vertical"
+            />
+
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+
+
+
 
 
     <LinearLayout
@@ -41,7 +51,6 @@
             android:text="№"
             android:gravity="center"
             android:textSize="16sp"
-
             />
 
 
@@ -230,20 +239,6 @@
 
 
     </LinearLayout>
-
-    <ImageButton
-        android:id="@+id/button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="4dp"
-        android:background="@null"
-        android:onClick="onClickButtonUpdate"
-        android:src="@drawable/ic_baseline_refresh_48"
-        android:text="Button"
-
-        />
 
     <RelativeLayout
         android:id="@+id/relative_layout_progress_bar"
